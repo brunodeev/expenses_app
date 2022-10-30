@@ -22,7 +22,7 @@ class TransactionList extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Theme.of(context).colorScheme.primary,
                       width: 2,
                     ),
                   ),
@@ -33,11 +33,10 @@ class TransactionList extends StatelessWidget {
                   ),
                   child: Text(
                     'R\$ ${tr.value.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.purple,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                 ),
                 Column(
@@ -45,10 +44,7 @@ class TransactionList extends StatelessWidget {
                   children: [
                     Text(
                       tr.title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).primaryTextTheme.headline6,
                     ),
                     Text(
                       DateFormat('dd/MM/y').format(tr.date),
