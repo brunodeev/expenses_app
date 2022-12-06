@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expenses/components/chart.dart';
 import 'dart:math';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
@@ -30,9 +31,15 @@ class ExpensesApp extends StatelessWidget {
           ),
         ),
         textTheme: tema.textTheme.copyWith(
-          headline6: const TextStyle(
+          headline5: const TextStyle(
             fontFamily: 'Quicksand',
             color: Colors.purple,
+            fontWeight: FontWeight.bold,
+          ),
+          headline6: const TextStyle(
+            fontFamily: 'Quicksand',
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
         appBarTheme: const AppBarTheme(
@@ -55,7 +62,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _transactions = [
+  final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
       title: 'Novo Tênis de Corrida',
@@ -69,6 +76,12 @@ class _HomePageState extends State<HomePage> {
       date: DateTime.now(),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -109,11 +122,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Card(
-              color: Colors.blue,
-              elevation: 5,
-              child: Text('Gráfico'),
-            ),
+            Chart(recentTransactions: _recentTransactions),
             TransactionList(_transactions)
           ],
         ),
