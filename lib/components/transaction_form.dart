@@ -51,65 +51,73 @@ class _TransactionFormState extends State<TransactionForm> {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              controller: titleController,
-              onSubmitted: (value) => _submitForm(),
-              decoration: const InputDecoration(
-                label: Text('Título'),
+        padding: EdgeInsets.only(
+          left: 10,
+          top: 10,
+          right: 10,
+          bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              TextField(
+                controller: titleController,
+                onSubmitted: (value) => _submitForm(),
+                decoration: const InputDecoration(
+                  label: Text('Título'),
+                ),
               ),
-            ),
-            TextField(
-              controller: valueController,
-              onSubmitted: (value) => _submitForm(),
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              decoration: const InputDecoration(
-                label: Text('Valor'),
+              TextField(
+                controller: valueController,
+                onSubmitted: (value) => _submitForm(),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                decoration: const InputDecoration(
+                  label: Text('Valor'),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(_selectedDate == null
-                        ? 'Nenhuma data selecionada!'
-                        : 'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _showDatePicker();
-                    },
-                    child: const Text(
-                      'Selecionar Data',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              SizedBox(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(_selectedDate == null
+                          ? 'Nenhuma data selecionada!'
+                          : 'Data selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'),
                     ),
+                    TextButton(
+                      onPressed: () {
+                        _showDatePicker();
+                      },
+                      child: const Text(
+                        'Selecionar Data',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    child: const Text(
+                      'Nova Transação',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      final title = titleController.text;
+                      final value = double.tryParse(valueController.text) ?? 0;
+                      widget.onSubmit!(title, value, _selectedDate);
+                    },
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  child: const Text(
-                    'Nova Transação',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {
-                    final title = titleController.text;
-                    final value = double.tryParse(valueController.text) ?? 0;
-                    widget.onSubmit!(title, value, _selectedDate);
-                  },
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

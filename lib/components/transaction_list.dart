@@ -14,8 +14,8 @@ class TransactionList extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.6,
       child: transactions.isEmpty
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
                 Text(
                   'Nenhuma Transação Cadastrada!',
                   style: Theme.of(context).textTheme.headline6,
@@ -28,6 +28,7 @@ class TransactionList extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
+                const SizedBox(height: 40),
               ],
             )
           : ListView.builder(
